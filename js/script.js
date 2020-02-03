@@ -8,7 +8,7 @@ const multiply = (a, b) => a * b;
 
 // Question 3
 const frog = {
-    colour: "ss",
+    colour: "green",
     getColour: function() {
         return this.colour;
     }
