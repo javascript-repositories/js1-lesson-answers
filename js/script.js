@@ -18,3 +18,13 @@ const frog = {
 (function() {
     console.log(new Date());
 })();
+
+
+// Question 5
+const animal = "mongoose";
+
+const difficultToSpell = animal === "hippopotamus" ? true : false;
+
+// you can wrap the condition in brackets if it's more readable to you
+const difficultToSpell = (animal === "hippopotamus") ? true : false;
+
