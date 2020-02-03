@@ -1,1 +1,1 @@
-# js1-lesson-answers
+# JavaScript 1 Lesson Question Answers
