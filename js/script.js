@@ -1,30 +1,20 @@
 // Question 1
-const multiply = (a, b) => a * b;
+fetch("https://api.rawg.io/api/games/4003/screenshots")
+    .then(response => response.json())
+    .then(json => createCarousel(json))
+    .catch(error => console.log(error));
 
+function createCarousel(json) {
+    const carouselInner = document.querySelector(".carousel-inner");
 
-// Question 2
-() => console.log("Hello");
+    // loop through the results array on the json object
+    // the index argument is the current index of the array being looped through
+    json.results.forEach((screen, index) => {
+        // set activeClass = "active" if this is the first slide
+        const activeClass = index === 0 ? "active" : "";
 
-
-// Question 3
-const frog = {
-    colour: "green",
-    getColour: function() {
-        return this.colour;
-    }
+        carouselInner.innerHTML += `<div class="carousel-item ${activeClass}">
+                                        <img src="${screen.image}" class="d-block w-100">
+                                    </div>`;
+    });
 }
-
-// Question 4
-(function() {
-    console.log(new Date());
-})();
-
-
-// Question 5
-const animal = "mongoose";
-
-const difficultToSpell = animal === "hippopotamus" ? true : false;
-
-// you can wrap the condition in brackets if it's more readable to you
-const difficultToSpell = (animal === "hippopotamus") ? true : false;
-
