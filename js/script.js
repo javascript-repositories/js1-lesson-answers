@@ -1,37 +1,79 @@
-const elephantUrl = "https://elephant-api.herokuapp.com/elephants";
-const corsEnabledUrl = "https://cors-anywhere.herokuapp.com/" + elephantUrl;
+const form = document.querySelector("form");
 
-// with regular functions
-fetch(corsEnabledUrl)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(json) {
-        createElephantNames(json);
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
+form.addEventListener("submit", validateForm);
 
-// with arrow functions
-// fetch(corsEnabledUrl)
-//     .then(response => response.json())
-//     .then(json => createElephantNames(json))
-//     .catch(error => console.log(error));
+function validateForm(event) {
+    // prevent default behaviour of the form
+    event.preventDefault();
 
-function createElephantNames(elephants) {
-    console.dir(elephants);
+    // validate the firstName input
+    const firstName = document.querySelector("#firstName");
+    const firstNameError = document.querySelector("#firstNameError");
+    const firstNameValue = firstName.value;
 
-    const resultsContainer = document.querySelector(".results");
+    if (checkInputLength(firstNameValue) === true) {
+        firstNameError.style.display = "none";
+    } else {
+        firstNameError.style.display = "block";
+    }
 
-    let html = "";
+    // validate the email input
+    const email = document.querySelector("#email");
+    const emailError = document.querySelector("#emailError");
+    const invalidEmailError = document.querySelector("#invalidEmailError");
 
-    elephants.forEach(elephant => {
-        // check that the name property exists
-        if (elephant.name) {
-            html += `<h4>${elephant.name}</h4>`;
-        }
-    });
+    const emailValue = email.value;
 
-    resultsContainer.innerHTML = html;
+    if (checkInputLength(emailValue)) {
+        emailError.style.display = "none";
+    } else {
+        emailError.style.display = "block";
+    }
+
+    if (validateEmail(emailValue)) {
+        invalidEmailError.style.display = "none";
+    } else {
+        invalidEmailError.style.display = "block";
+    }
+
+    // validate the message textarea
+    const message = document.querySelector("#message");
+    const messageError = document.querySelector("#messageError");
+    const messageValue = message.value;
+
+    if (checkTextAreaLength(messageValue)) {
+        messageError.style.display = "none";
+    } else {
+        messageError.style.display = "block";
+    }
+}
+
+function checkInputLength(value) {
+    // trim the value
+    const trimmedValue = value.trim();
+
+    // if the value's length is greater than 0 return true
+    if (trimmedValue.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkTextAreaLength(value) {
+    // trim the value
+    const trimmedValue = value.trim();
+
+    // if the value's length is greater than or equal to 5 return true
+    if (trimmedValue.length >= 5) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateEmail(email) {
+    const regEx = /\S+@\S+\.\S+/;
+    const patternMatches = regEx.test(email);
+    return patternMatches;
 }

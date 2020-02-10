@@ -1,0 +1,11 @@
+.error {
+    color: red;
+    display: none;
+}
+
+input,
+textarea {
+    width: 200px;
+    padding: 10px;
+    margin-top: 5px;
+}
