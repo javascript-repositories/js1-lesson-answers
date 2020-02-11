@@ -1,37 +1,46 @@
-const elephantUrl = "https://elephant-api.herokuapp.com/elephants";
-const corsEnabledUrl = "https://cors-anywhere.herokuapp.com/" + elephantUrl;
+const randomUrl = "https://elephant-api.herokuapp.com/elephants/random";
+const corsEnabledUrl = "https://cors-anywhere.herokuapp.com/" + randomUrl;
 
 // with regular functions
-fetch(corsEnabledUrl)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(json) {
-        createElephantNames(json);
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
+// fetch(corsEnabledUrl)
+//     .then(function(response) {
+//         return response.json();
+//     })
+//     .then(function(json) {
+//         displayElephantDetails(json);
+//     })
+//     .catch(function(error) {
+//         console.log(error);
+//     });
 
 // with arrow functions
-// fetch(corsEnabledUrl)
-//     .then(response => response.json())
-//     .then(json => createElephantNames(json))
-//     .catch(error => console.log(error));
+fetch(corsEnabledUrl)
+    .then(response => response.json())
+    .then(json => displayElephantDetails(json))
+    .catch(error => console.log(error));
 
-function createElephantNames(elephants) {
-    console.dir(elephants);
+function displayElephantDetails(elephantArray) {
+    console.dir(elephantArray);
 
-    const resultsContainer = document.querySelector(".results");
+    const elephant = elephantArray[0];
 
-    let html = "";
+    const container = document.querySelector(".elephant-container");
+    const noResult = document.querySelector(".no-result");
 
-    elephants.forEach(elephant => {
-        // check that the name property exists
-        if (elephant.name) {
-            html += `<h4>${elephant.name}</h4>`;
-        }
-    });
+    // check the object has all required properties
+    if (elephant.name && elephant.image && elephant.note) {
+        const heading = document.querySelector("h1");
+        heading.innerHTML = elephant.name;
 
-    resultsContainer.innerHTML = html;
+        const img = document.querySelector("img");
+        img.src = elephant.image;
+        img.alt = elephant.name;
+
+        const note = document.querySelector(".note");
+        note.innerHTML = elephant.note;
+
+        container.classList.remove("hidden");
+    } else {
+        noResult.classList.remove("hidden");
+    }
 }
